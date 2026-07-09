@@ -23,8 +23,18 @@ def generate_toy_images(key, num_images, image_size):
     subkeys = jax.random.split(key, num_images)    
     return jax.vmap(single)(subkeys)
 
-# Step 2 - assign_image_labels (not yet solved)
-# TODO: implement
+# Step 2 - assign_image_labels
+def assign_image_labels(images):
+    # label each image 'left' or 'right' by comparing left vs right pixel mass
+    num_images, _, image_width = images.shape
+    labels = []
+    for i in range(num_images):
+        if images[i,:,:image_width // 2].sum() >= images[i,:,image_width // 2:].sum():
+            label = 'left'
+        else:
+            label = 'right'
+        labels.append(label)
+    return labels
 
 # Step 3 - normalize_image_batch (not yet solved)
 # TODO: implement
