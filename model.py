@@ -32,8 +32,10 @@ def assign_image_labels(images):
     is_left = left_mass >= right_mass
     return ['left' if condition else 'right' for condition in is_left]
 
-# Step 3 - normalize_image_batch (not yet solved)
-# TODO: implement
+# Step 3 - normalize_image_batch
+def normalize_image_batch(images):
+    # rescale images from [0, 1] into the symmetric [-1, 1] range
+    return (images * 2) - 1
 
 # Step 4 - split_image_into_patches (not yet solved)
 # TODO: implement
