@@ -26,15 +26,11 @@ def generate_toy_images(key, num_images, image_size):
 # Step 2 - assign_image_labels
 def assign_image_labels(images):
     # label each image 'left' or 'right' by comparing left vs right pixel mass
-    num_images, _, image_width = images.shape
-    labels = []
-    for i in range(num_images):
-        if images[i,:,:image_width // 2].sum() >= images[i,:,image_width // 2:].sum():
-            label = 'left'
-        else:
-            label = 'right'
-        labels.append(label)
-    return labels
+    mid = images.shape[2] // 2
+    left_mass = jnp.sum(images[:, :, :mid], axis=(1, 2))
+    right_mass = jnp.sum(images[:, :, mid:], axis=(1, 2))
+    is_left = left_mass >= right_mass
+    return ['left' if condition else 'right' for condition in is_left]
 
 # Step 3 - normalize_image_batch (not yet solved)
 # TODO: implement
